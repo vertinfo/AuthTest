@@ -1,9 +1,10 @@
 ﻿@page "/motarlogin"
-
+@inject NavigationManager NavManager
 
 <h1>Motar Login</h1>
 
 <p>This is a test app for the QVX desktop app</p>
+<p>User = happyleopard183</p>
 
 <a href="@MotarApi">Motar</a>
 <EditForm Model="@model">
@@ -11,6 +12,9 @@
     <ValidationSummary />
     <InputText placeholder="UserName" @bind-Value="@model.user"></InputText>
     <InputText type="password" placeholder="Password" @bind-Value="@model.password" />
+    <p>
+        <InputTextArea placeholder="Response" @bind-Value="@response"></InputTextArea>
+    </p>
     <button type="submit" onclick="@MotarAuth()">Submit</button>
 </EditForm>
 
@@ -20,18 +24,18 @@
         "&client_id=iok-cid-1f4b249e90ac6cae2ce6a01480e27241db659767d1e99de5" +
         "&redirect_uri=https://qvxauth.azurewebsites.net/motarlogin&state=NONCE";
 
+    private string response = "";
+
     protected override async Task OnInitializedAsync()
     {
-        
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+        response = uri.Query;
     }
 
     protected async Task MotarAuth()
     {
-        Services.WebClient client = new Services.WebClient();
-
-        string res = await client.getData(MotarApi);
-
-        Console.WriteLine($"The password is {model.password} and the response is {res}");
+        
+        Console.WriteLine($"The response is {response}");
     }
 
 
