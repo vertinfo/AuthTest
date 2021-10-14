@@ -29,7 +29,10 @@
     protected override async Task OnInitializedAsync()
     {
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
-        response = uri.Query;
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("initialCount", out var code))
+        {
+            response = code.ToString();
+        }
     }
 
     protected async Task MotarAuth()
