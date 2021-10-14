@@ -1,0 +1,38 @@
+﻿@page "/motarlogin"
+
+
+<h1>Motar Login</h1>
+
+<p>This is a test app for the QVX desktop app</p>
+
+<a href="@MotarApi">Motar</a>
+<EditForm Model="@model">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <InputText placeholder="UserName" @bind-Value="@model.user"></InputText>
+    <InputText type="password" placeholder="Password" @bind-Value="@model.password" />
+    <button type="submit" onclick="@MotarAuth()">Submit</button>
+</EditForm>
+
+@code {
+    private Models.Login model = new Models.Login();
+    private string MotarApi = "https://sandbox.motar.io/oauth/signin?response_type=code" +
+        "&client_id=iok-cid-1f4b249e90ac6cae2ce6a01480e27241db659767d1e99de5" +
+        "&redirect_uri=172.21.224.1&state=NONCE";
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+    }
+
+    protected async Task MotarAuth()
+    {
+        Services.WebClient client = new Services.WebClient();
+
+        string res = await client.getData(MotarApi);
+
+        Console.WriteLine($"The password is {model.password} and the response is {res}");
+    }
+
+
+}
