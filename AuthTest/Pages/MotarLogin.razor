@@ -13,7 +13,10 @@
     <InputText placeholder="UserName" @bind-Value="@model.user"></InputText>
     <InputText type="password" placeholder="Password" @bind-Value="@model.password" />
     <p>
-        <InputTextArea placeholder="Response" @bind-Value="@response"></InputTextArea>
+        <InputTextArea placeholder="Motar code" @bind-Value="@motarres"></InputTextArea>
+    </p>
+    <p>
+        <InputTextArea placeholder="VX Token" @bind-Value="@vxres"></InputTextArea>
     </p>
     <button type="submit" onclick="@MotarAuth()">Submit</button>
 </EditForm>
@@ -24,21 +27,28 @@
         "&client_id=iok-cid-1f4b249e90ac6cae2ce6a01480e27241db659767d1e99de5" +
         "&redirect_uri=https://qvxauth.azurewebsites.net/motarlogin&state=NONCE";
 
-    private string response = "";
+    private string vxapi = "https://api.quantuminterface.com/v1/qivxdeviceauthcode/";
+
+    private string motarres = "";
+    private string vxres = "";
 
     protected override async Task OnInitializedAsync()
     {
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("initialCount", out var code))
         {
-            response = code.ToString();
+
+            motarres = code.ToString();
+            vxres = vxapi + motarres;
+
+
         }
     }
 
     protected async Task MotarAuth()
     {
-        
-        Console.WriteLine($"The response is {response}");
+
+        Console.WriteLine($"The response is {vxres}");
     }
 
 
