@@ -34,22 +34,21 @@
 
     protected override async Task OnInitializedAsync()
     {
+        Console.WriteLine("In Motar Login");
+    }
+
+    protected async Task MotarAuth()
+    {
         Services.WebClient client = new Services.WebClient();
 
         string res = await client.getData(MotarApi);
 
         Console.WriteLine($"The password is {model.password} and the response is {res}");
-                
+
 
         motarres = res.Split('?')[0];
         Console.WriteLine("motarres = " + motarres);
         vxres = vxapi + motarres;
-
-    }
-
-    protected async Task MotarAuth()
-    {
-
         Console.WriteLine($"The response is {vxres}");
     }
 
