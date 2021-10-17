@@ -34,15 +34,17 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("initialCount", out var code))
-        {
+        Services.WebClient client = new Services.WebClient();
 
-            motarres = code.ToString();
-            vxres = vxapi + motarres;
+        string res = await client.getData(MotarApi);
 
+        Console.WriteLine($"The password is {model.password} and the response is {res}");
+                
 
-        }
+        motarres = res.Split('?')[0];
+        Console.WriteLine("motarres = " + motarres);
+        vxres = vxapi + motarres;
+
     }
 
     protected async Task MotarAuth()
