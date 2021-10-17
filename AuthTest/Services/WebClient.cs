@@ -26,8 +26,8 @@ namespace AuthTest.Services
                 
                 HttpClient client = new HttpClient();
                 
-                client.DefaultRequestHeaders.Add("timestamp", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
-                client.DefaultRequestHeaders.Add("pass", qi);
+                //client.DefaultRequestHeaders.Add("timestamp", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+                //client.DefaultRequestHeaders.Add("pass", qi);
 
                 var response = await client.GetStringAsync(deviceapi + end);
                 

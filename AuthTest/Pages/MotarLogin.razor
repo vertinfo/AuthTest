@@ -34,22 +34,23 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine("In Motar Login");
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("initialCount", out var code))
+        {
+
+            motarres = code.ToString();
+
+            Console.WriteLine($"The response is {motarres}");
+        }
     }
 
     protected async Task MotarAuth()
     {
-        Services.WebClient client = new Services.WebClient();
+        WebClient client = new WebClient();
 
-        string res = await client.getData(MotarApi);
+        vxres = await client.getData(vxapi + motarres);
 
-        Console.WriteLine($"The password is {model.password} and the response is {res}");
-
-
-        motarres = res.Split('?')[0];
-        Console.WriteLine("motarres = " + motarres);
-        vxres = vxapi + motarres;
-        Console.WriteLine($"The response is {vxres}");
+        Console.WriteLine("Token from VxApi = " + vxres);
     }
 
 
