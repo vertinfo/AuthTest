@@ -51,7 +51,7 @@
 
             WebClient client = new WebClient();
 
-            vxres = await client.getData(vxapi + motarres);
+            vxres = client.sendPost(vxapi, motarres);
 
             Console.WriteLine($"Token from VxApi is {vxres}");
 
