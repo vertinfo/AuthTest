@@ -1,5 +1,6 @@
 ﻿@page "/motarlogin"
 @inject NavigationManager NavManager
+@inject ILogger<MotarLogin> logger;
 
 <h1>Motar Login</h1>
 
@@ -24,7 +25,6 @@
 @*<button type="button" onclick="@MotarAuth()">Get Token</button>*@
 
 @code {
-    //public ILogger<MotarLogin> logger = new Logger<WebClient>(new LoggerFactory());
 
     private Models.Login model = new Models.Login();
     private string MotarApi = "https://sandbox.motar.io/oauth/signin?response_type=code" +
@@ -41,13 +41,14 @@
 
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
         Console.WriteLine($"Console- Initialize");
-        //logger.LogInformation($"logger- Initialize");
+        logger.LogWarning($"logger- Initialize");
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("code", out var motarcode))
         {
 
             motarres = motarcode.ToString();
 
             Console.WriteLine($"The response is {motarres}");
+            logger.LogWarning($"The Motar response is {motarres}");
 
             WebClient client = new WebClient();
 
@@ -58,7 +59,7 @@
 
             Console.WriteLine($"Token from VxApi is {vxres}");
 
-            //logger.LogInformation($"Token from VxApi is {vxres}");
+            logger.LogWarning($"Token from VxApi is {vxres}");
 
 
             //logger.LogTrace($"The response is {motarres}");

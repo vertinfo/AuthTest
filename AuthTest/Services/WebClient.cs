@@ -13,7 +13,8 @@ namespace AuthTest.Services
 {
     public class WebClient : IwebClient
     {
-        private ILogger<WebClient> logger = new Logger<WebClient>(new LoggerFactory());
+        //private ILogger<WebClient> logger = new Logger<WebClient>(new LoggerFactory());
+        private readonly ILogger<WebClient> logger;
 
         JObject jo = new JObject();
 
@@ -23,6 +24,11 @@ namespace AuthTest.Services
         //local endpoint
         //private string localapi = "http://localhost:5051/api/";
         string qi = "13e15c3d-dbf0-4cd8-8b73-0b2ccbf00cc3";
+
+        public WebClient(ILogger<WebClient> _logger)
+        {
+            logger = _logger;
+        }
 
         //Test method
         public async Task<string> getData(string end)
