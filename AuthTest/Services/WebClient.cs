@@ -12,7 +12,7 @@ namespace AuthTest.Services
 {
     public class WebClient : IwebClient
     {
-        private ILogger Logger { get; }
+        //public ILogger<WebClient> logger = new Logger<WebClient>(new LoggerFactory());
 
         private string tag = "WebClient";
         //Azure endpoint
@@ -38,7 +38,7 @@ namespace AuthTest.Services
             }
             catch(Exception ex)
             {
-                Logger.LogTrace($"{tag}: {ex.Message.ToString()}");
+                Console.WriteLine($"{tag}: {ex.Message.ToString()}");
             }
 
             return "fail";
@@ -56,7 +56,7 @@ namespace AuthTest.Services
             catch (Exception ex)
             {
                 Console.WriteLine($"sendPost exc: {ex.Message.ToString()}");
-                Logger.LogTrace($"{tag}: {ex.Message.ToString()}");
+                //logger.LogTrace($"{tag}: {ex.Message.ToString()}");
             }
 
             return "fail";
@@ -74,7 +74,7 @@ namespace AuthTest.Services
             catch (Exception ex)
             {
                 Console.WriteLine($"sendPutt exc: {ex.Message.ToString()}");
-                Logger.LogTrace($"{tag}: {ex.Message.ToString()}");
+                //logger.LogTrace($"{tag}: {ex.Message.ToString()}");
             }
 
             return "fail";

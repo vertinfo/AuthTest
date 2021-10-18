@@ -18,33 +18,48 @@
     <p>
         <InputTextArea placeholder="VX Token" @bind-Value="@vxres"></InputTextArea>
     </p>
-    <button type="submit" onclick="@MotarAuth()">Submit</button>
+    
 </EditForm>
 
+@*<button type="button" onclick="@MotarAuth()">Get Token</button>*@
+
 @code {
-    private ILogger Logger { get; }
+    //public ILogger<MotarLogin> logger = new Logger<WebClient>(new LoggerFactory());
 
     private Models.Login model = new Models.Login();
     private string MotarApi = "https://sandbox.motar.io/oauth/signin?response_type=code" +
         "&client_id=iok-cid-1f4b249e90ac6cae2ce6a01480e27241db659767d1e99de5" +
         "&redirect_uri=https://qvxauth.azurewebsites.net/motarlogin&state=NONCE";
 
-    private string vxapi = "https://dev-api.quantuminterface.com/v1/qivxdeviceauthcode/";
+    private string vxapi = "https://dev-api.quantuminterface.com/v1/auth/motar-code/";
 
     private string motarres = "";
     private string vxres = "";
 
     protected override async Task OnInitializedAsync()
     {
+        
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("code", out var code))
+        Console.WriteLine($"Console- Initialize");
+        //logger.LogInformation($"logger- Initialize");
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("code", out var motarcode))
         {
 
-            motarres = code.ToString();
+            motarres = motarcode.ToString();
 
-            //Console.WriteLine($"The response is {motarres}");
-            Logger.LogTrace($"The response is {motarres}");
-            Logger.LogInformation($"The response is {motarres}");
+            Console.WriteLine($"The response is {motarres}");
+
+            WebClient client = new WebClient();
+
+            vxres = await client.getData(vxapi + motarres);
+
+            Console.WriteLine($"Token from VxApi is {vxres}");
+
+            //logger.LogInformation($"Token from VxApi is {vxres}");
+
+            
+            //logger.LogTrace($"The response is {motarres}");
+            //logger.LogInformation($"The response is {motarres}");
         }
     }
 
@@ -52,12 +67,12 @@
     {
         WebClient client = new WebClient();
 
-        vxres = await client.getData(vxapi + motarres);
+        //vxres = await client.getData(vxapi + motarres);
 
-        Logger.LogInformation($"VxApi: {vxapi}");
-        Logger.LogInformation($"Token from VxApi is {vxres}");
+        //logger.LogInformation($"VxApi: {vxapi}");
+        //logger.LogInformation($"Token from VxApi is {vxres}");
 
-        //Console.WriteLine("Token from VxApi = " + vxres);
+        Console.WriteLine("Token from VxApi = " + vxres);
     }
 
 
