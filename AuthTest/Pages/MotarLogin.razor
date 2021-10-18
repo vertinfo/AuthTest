@@ -22,12 +22,14 @@
 </EditForm>
 
 @code {
+    private ILogger Logger { get; }
+
     private Models.Login model = new Models.Login();
     private string MotarApi = "https://sandbox.motar.io/oauth/signin?response_type=code" +
         "&client_id=iok-cid-1f4b249e90ac6cae2ce6a01480e27241db659767d1e99de5" +
         "&redirect_uri=https://qvxauth.azurewebsites.net/motarlogin&state=NONCE";
 
-    private string vxapi = "https://api.quantuminterface.com/v1/qivxdeviceauthcode/";
+    private string vxapi = "https://dev-api.quantuminterface.com/v1/qivxdeviceauthcode/";
 
     private string motarres = "";
     private string vxres = "";
@@ -35,12 +37,13 @@
     protected override async Task OnInitializedAsync()
     {
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("initialCount", out var code))
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("code", out var code))
         {
 
             motarres = code.ToString();
 
-            Console.WriteLine($"The response is {motarres}");
+            //Console.WriteLine($"The response is {motarres}");
+            Logger.LogInformation($"The response is {motarres}");
         }
     }
 
@@ -50,7 +53,10 @@
 
         vxres = await client.getData(vxapi + motarres);
 
-        Console.WriteLine("Token from VxApi = " + vxres);
+        Logger.LogInformation($"VxApi: {vxapi}");
+        Logger.LogInformation($"Token from VxApi is {vxres}");
+
+        //Console.WriteLine("Token from VxApi = " + vxres);
     }
 
 
