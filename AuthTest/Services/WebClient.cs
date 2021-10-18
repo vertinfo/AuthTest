@@ -12,7 +12,7 @@ namespace AuthTest.Services
 {
     public class WebClient : IwebClient
     {
-        //public ILogger<WebClient> logger = new Logger<WebClient>(new LoggerFactory());
+        private ILogger<WebClient> logger = new Logger<WebClient>(new LoggerFactory());
 
         private string tag = "WebClient";
         //Azure endpoint
@@ -39,6 +39,7 @@ namespace AuthTest.Services
             catch(Exception ex)
             {
                 Console.WriteLine($"{tag}: {ex.Message.ToString()}");
+                logger.LogInformation($"{tag}: {ex.Message.ToString()}");
             }
 
             return "fail";
@@ -51,12 +52,14 @@ namespace AuthTest.Services
                 HttpClient client = new HttpClient();
                 HttpContent content = new StringContent(pars, Encoding.UTF8, "application/json");
                 var response = client.PostAsync(api, content);
-                string result = response.Result.Content.ReadAsStringAsync().Result;
+                string resp = response.Result.Content.ReadAsStringAsync().Result;
+                logger.LogInformation($"****VxApi Response**********{tag}: {resp}");
+                string result = resp;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"sendPost exc: {ex.Message.ToString()}");
-                //logger.LogTrace($"{tag}: {ex.Message.ToString()}");
+                logger.LogInformation($"{tag}: {ex.Message.ToString()}");
             }
 
             return "fail";
@@ -74,7 +77,7 @@ namespace AuthTest.Services
             catch (Exception ex)
             {
                 Console.WriteLine($"sendPutt exc: {ex.Message.ToString()}");
-                //logger.LogTrace($"{tag}: {ex.Message.ToString()}");
+                logger.LogTrace($"{tag}: {ex.Message.ToString()}");
             }
 
             return "fail";
