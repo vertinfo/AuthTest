@@ -6,11 +6,14 @@ using System.Net.Http;
 using System.Text;
 using System.Globalization;
 using System.Net;
+using Microsoft.Extensions.Logging;
 
 namespace AuthTest.Services
 {
     public class WebClient : IwebClient
     {
+        private ILogger Logger { get; }
+
         private string tag = "WebClient";
         //Azure endpoint
         private string deviceapi = "https://devicedetails.datahoist.com/api/";
@@ -35,7 +38,7 @@ namespace AuthTest.Services
             }
             catch(Exception ex)
             {
-                Console.WriteLine($"{tag}: {ex.Message.ToString()}");
+                Logger.LogTrace($"{tag}: {ex.Message.ToString()}");
             }
 
             return "fail";
@@ -53,6 +56,7 @@ namespace AuthTest.Services
             catch (Exception ex)
             {
                 Console.WriteLine($"sendPost exc: {ex.Message.ToString()}");
+                Logger.LogTrace($"{tag}: {ex.Message.ToString()}");
             }
 
             return "fail";
@@ -70,6 +74,7 @@ namespace AuthTest.Services
             catch (Exception ex)
             {
                 Console.WriteLine($"sendPutt exc: {ex.Message.ToString()}");
+                Logger.LogTrace($"{tag}: {ex.Message.ToString()}");
             }
 
             return "fail";
