@@ -55,7 +55,8 @@ namespace AuthTest.Services
                 HttpClient client = new HttpClient();
                 HttpContent content = new StringContent(pars, Encoding.UTF8, "application/json");
                 var response = client.PostAsync(api, content);
-                string resp = response.Result.Content.ReadAsStringAsync().Result;
+                //string resp = response.Result.Content.ReadAsStringAsync().Result;
+                string resp = response.Result.StatusCode.ToString();
                 logger.LogInformation($"****VxApi Response**********{tag}: {resp}");
                 string result = resp;
             }
