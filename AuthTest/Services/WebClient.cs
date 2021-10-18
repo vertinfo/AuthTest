@@ -42,7 +42,7 @@ namespace AuthTest.Services
             catch(Exception ex)
             {
                 Console.WriteLine($"{tag}: {ex.Message.ToString()}");
-                logger.LogInformation($"{tag}: {ex.Message.ToString()}");
+                logger.LogWarning($"{tag}: {ex.Message.ToString()}");
             }
 
             return "fail";
@@ -53,17 +53,18 @@ namespace AuthTest.Services
             try
             {
                 HttpClient client = new HttpClient();
+                logger.LogWarning($"****VxApi body**********{tag}: {pars}");
                 HttpContent content = new StringContent(pars, Encoding.UTF8, "application/json");
                 var response = client.PostAsync(api, content);
                 //string resp = response.Result.Content.ReadAsStringAsync().Result;
                 string resp = response.Result.StatusCode.ToString();
-                logger.LogInformation($"****VxApi Response**********{tag}: {resp}");
+                logger.LogWarning($"****VxApi Response**********{tag}: {resp}");
                 string result = resp;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"sendPost exc: {ex.Message.ToString()}");
-                logger.LogInformation($"{tag}: {ex.Message.ToString()}");
+                logger.LogWarning($"{tag}: {ex.Message.ToString()}");
             }
 
             return "fail";
@@ -81,7 +82,7 @@ namespace AuthTest.Services
             catch (Exception ex)
             {
                 Console.WriteLine($"sendPutt exc: {ex.Message.ToString()}");
-                logger.LogTrace($"{tag}: {ex.Message.ToString()}");
+                logger.LogWarning($"{tag}: {ex.Message.ToString()}");
             }
 
             return "fail";
