@@ -18,7 +18,7 @@
     <p>
         <InputTextArea placeholder="VX Token" @bind-Value="@vxres"></InputTextArea>
     </p>
-    
+
 </EditForm>
 
 @*<button type="button" onclick="@MotarAuth()">Get Token</button>*@
@@ -38,7 +38,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        
+
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
         Console.WriteLine($"Console- Initialize");
         //logger.LogInformation($"logger- Initialize");
@@ -51,13 +51,16 @@
 
             WebClient client = new WebClient();
 
-            vxres = client.sendPost(vxapi, motarres);
+            JObject json = new JObject();
+            json.Add("code", motarres);
+
+            vxres = client.sendPost(vxapi, JsonConvert.SerializeObject(json));
 
             Console.WriteLine($"Token from VxApi is {vxres}");
 
             //logger.LogInformation($"Token from VxApi is {vxres}");
 
-            
+
             //logger.LogTrace($"The response is {motarres}");
             //logger.LogInformation($"The response is {motarres}");
         }

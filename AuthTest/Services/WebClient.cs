@@ -7,12 +7,15 @@ using System.Text;
 using System.Globalization;
 using System.Net;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 
 namespace AuthTest.Services
 {
     public class WebClient : IwebClient
     {
         private ILogger<WebClient> logger = new Logger<WebClient>(new LoggerFactory());
+
+        JObject jo = new JObject();
 
         private string tag = "WebClient";
         //Azure endpoint
