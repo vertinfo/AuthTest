@@ -51,7 +51,7 @@ namespace AuthTest.Services
                 HttpClient client = new HttpClient();
                 HttpContent content = new StringContent(pars, Encoding.UTF8, "application/json");
                 var response = client.PostAsync(api, content);
-                return response.ToString();
+                string result = response.Result.Content.ReadAsStringAsync().Result;
             }
             catch (Exception ex)
             {
