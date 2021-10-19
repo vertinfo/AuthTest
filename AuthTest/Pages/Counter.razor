@@ -9,8 +9,20 @@
 @code {
     private int currentCount = 0;
 
-    private void IncrementCount()
+    private string vxapi = "https://dev-api.quantuminterface.com/v1/auth/motar-code/";
+
+    private async Task IncrementCount()
     {
-        currentCount++;
+        WebClient client = new WebClient();
+
+        string motarres = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjYjYxNzhmY2JmODAwMTJjZDI2OWYiLCJjbGllbnRJZCI6Imlvay1jaWQtMWY0YjI0OWU5MGFjNmNhZTJjZTZhMDE0ODBlMjcyNDFkYjY1OTc2N2QxZTk5ZGU1Iiwic2NvcGUiOlsicHJvZmlsZSJdLCJzdGF0ZSI6Ik5PTkNFIiwiYXBwSWQiOiI2MTVjYjVmMjhmY2JmODAwMTJjZDI2ODUiLCJwbHVnaW5JZCI6IiIsImlhdCI6MTYzNDU5MjA5NywiZXhwIjoxNjM0Njc4NDk3LCJhdWQiOiJzYW5kYm94Lm1vdGFyLmlvIiwiaXNzIjoiZHluZXBpYy5jb20iLCJzdWIiOiJkNjI0MTAxODQ1Y2M2ODNkZjkxOTFlNWMwODE2MWY1NWI0ZGEzNzliNzZlOTlkOWIyMmExMmM5ZGQ3MDhhYzNjNjhjN2QyODNiY2FkZTcwZGVlZmY0OTcwN2Y1ODg5MTNkY2Q0MTQ4Yjg1MGE3MzBjMzk3YTQwYzJmYjU2YTkzOTU3YjU3NGJlNDljMGNmMTI4YjczMTk0YmY4YjhjODZhZjckMzg3MDZjNmMzMzM1Njc3YTcxNzczMDM4MzA2MzYzMzMiLCJqdGkiOiIwNjYxYjc0ZDE5OTQ5M2FmZjU5Y2ExZjM4NzkwMWZiYzRhMDgwNGZjMmYyODFmN2U1ZDUxNDUwMjc5NzQ5YjBmIn0.UhdrrL2ozHqWuow_a3E25VyZaro9GnPaYTkKmBLfJFg";
+
+        JObject json = new JObject();
+        json.Add("code", motarres);
+
+        string vxres = await client.sendPost(vxapi, JsonConvert.SerializeObject(json));
+
+        Console.WriteLine($"Token from VxApi is {vxres}");
+
     }
 }

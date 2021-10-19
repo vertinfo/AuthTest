@@ -55,7 +55,7 @@
             JObject json = new JObject();
             json.Add("code", motarres);
 
-            vxres = client.sendPost(vxapi, JsonConvert.SerializeObject(json));
+            vxres = await client.sendPost(vxapi, JsonConvert.SerializeObject(json));
 
             Console.WriteLine($"Token from VxApi is {vxres}");
 

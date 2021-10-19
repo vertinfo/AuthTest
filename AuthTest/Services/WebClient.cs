@@ -13,8 +13,7 @@ namespace AuthTest.Services
 {
     public class WebClient : IwebClient
     {
-        //private ILogger<WebClient> logger = new Logger<WebClient>(new LoggerFactory());
-        private readonly ILogger<WebClient> logger;
+        private ILogger<WebClient> logger = new Logger<WebClient>(new LoggerFactory());       
 
         JObject jo = new JObject();
 
@@ -24,11 +23,6 @@ namespace AuthTest.Services
         //local endpoint
         //private string localapi = "http://localhost:5051/api/";
         string qi = "13e15c3d-dbf0-4cd8-8b73-0b2ccbf00cc3";
-
-        public WebClient(ILogger<WebClient> _logger)
-        {
-            logger = _logger;
-        }
 
         //Test method
         public async Task<string> getData(string end)
@@ -54,17 +48,19 @@ namespace AuthTest.Services
             return "fail";
         }
         
-        public string sendPost(string api, string pars)
+        public async Task<string> sendPost(string api, string pars)
         {
             try
             {
                 HttpClient client = new HttpClient();
                 logger.LogWarning($"****VxApi body**********{tag}: {pars}");
+                Console.WriteLine($"****VxApi body**********{tag}: {pars}");
                 HttpContent content = new StringContent(pars, Encoding.UTF8, "application/json");
-                var response = client.PostAsync(api, content);
-                //string resp = response.Result.Content.ReadAsStringAsync().Result;
-                string resp = response.Result.StatusCode.ToString();
+                var response = await client.PostAsync(api, content);
+                //string resp = response.Content.ReadAsStringAsync().Result;
+                string resp = response.StatusCode.ToString();
                 logger.LogWarning($"****VxApi Response**********{tag}: {resp}");
+                Console.WriteLine($"****VxApi Response**********{tag}: {resp}");
                 string result = resp;
             }
             catch (Exception ex)
@@ -117,7 +113,7 @@ namespace AuthTest.Services
 public interface IwebClient
     {
         Task<string> getData(string id);
-        string sendPost(string api, string pars);
+        Task<string> sendPost(string api, string pars);
         string sendPut(string api, string pars);
     }
 }
