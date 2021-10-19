@@ -8,13 +8,13 @@ using System.Globalization;
 using System.Net;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using Serilog;
 
 namespace AuthTest.Services
 {
     public class WebClient : IwebClient
     {
-        private ILogger<WebClient> logger = new Logger<WebClient>(new LoggerFactory());       
-
+        
         JObject jo = new JObject();
 
         private string tag = "WebClient";
@@ -42,7 +42,7 @@ namespace AuthTest.Services
             catch(Exception ex)
             {
                 Console.WriteLine($"{tag}: {ex.Message.ToString()}");
-                logger.LogWarning($"{tag}: {ex.Message.ToString()}");
+                Log.Error($"{tag}: {ex.Message.ToString()}");
             }
 
             return "fail";
@@ -53,20 +53,20 @@ namespace AuthTest.Services
             try
             {
                 HttpClient client = new HttpClient();
-                logger.LogWarning($"****VxApi body**********{tag}: {pars}");
+                Log.Information($"****VxApi body**********{tag}: {pars}");
                 Console.WriteLine($"****VxApi body**********{tag}: {pars}");
                 HttpContent content = new StringContent(pars, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync(api, content);
-                //string resp = response.Content.ReadAsStringAsync().Result;
-                string resp = response.StatusCode.ToString();
-                logger.LogWarning($"****VxApi Response**********{tag}: {resp}");
+                string resp = response.Content.ReadAsStringAsync().Result;
+                string stat = response.StatusCode.ToString();
+                Log.Information($"****VxApi Response**********{tag}: {resp}");
                 Console.WriteLine($"****VxApi Response**********{tag}: {resp}");
                 string result = resp;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"sendPost exc: {ex.Message.ToString()}");
-                logger.LogWarning($"{tag}: {ex.Message.ToString()}");
+                Log.Error($"{tag}: {ex.Message.ToString()}");
             }
 
             return "fail";
@@ -84,7 +84,7 @@ namespace AuthTest.Services
             catch (Exception ex)
             {
                 Console.WriteLine($"sendPutt exc: {ex.Message.ToString()}");
-                logger.LogWarning($"{tag}: {ex.Message.ToString()}");
+                Log.Error($"{tag}: {ex.Message.ToString()}");
             }
 
             return "fail";

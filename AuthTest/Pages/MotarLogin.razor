@@ -1,6 +1,5 @@
 ﻿@page "/motarlogin"
 @inject NavigationManager NavManager
-@inject ILogger<MotarLogin> logger;
 
 <h1>Motar Login</h1>
 
@@ -41,15 +40,14 @@
 
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
         Console.WriteLine($"Console- Initialize");
-        logger.LogWarning($"logger- Initialize");
+        
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("code", out var motarcode))
         {
 
             motarres = motarcode.ToString();
 
             Console.WriteLine($"The response is {motarres}");
-            logger.LogWarning($"The Motar response is {motarres}");
-
+            
             WebClient client = new WebClient();
 
             JObject json = new JObject();
@@ -59,24 +57,13 @@
 
             Console.WriteLine($"Token from VxApi is {vxres}");
 
-            logger.LogWarning($"Token from VxApi is {vxres}");
-
-
-            //logger.LogTrace($"The response is {motarres}");
-            //logger.LogInformation($"The response is {motarres}");
+            
         }
     }
 
     protected async Task MotarAuth()
     {
-        WebClient client = new WebClient();
-
-        //vxres = await client.getData(vxapi + motarres);
-
-        //logger.LogInformation($"VxApi: {vxapi}");
-        //logger.LogInformation($"Token from VxApi is {vxres}");
-
-        Console.WriteLine("Token from VxApi = " + vxres);
+       
     }
 
 
