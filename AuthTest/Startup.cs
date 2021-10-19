@@ -77,7 +77,7 @@ namespace AuthTest
 
             loggers.WriteTo.Logger(logger => logger
                     .WriteTo.Console()
-                    //.WriteTo.AzureBlobStorage(connectionString: configuration["LogBlobConn"], restrictedToMinimumLevel: LogEventLevel.Information, storageContainerName: "qitestlogs", "authtest/{yyyy}/{MM}/{dd}/{yyyy}-{MM}-{dd}_{HH}.txt")
+                    .WriteTo.AzureBlobStorage(connectionString: configuration["LogBlobConn"], restrictedToMinimumLevel: LogEventLevel.Information, storageContainerName: "qitestlogs", "authtest/{yyyy}/{MM}/{dd}/{yyyy}-{MM}-{dd}_{HH}.txt")
                     .WriteTo.AzureApp());
             Log.Logger = loggers.CreateLogger();
         }
