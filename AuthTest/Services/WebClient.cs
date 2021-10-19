@@ -61,7 +61,7 @@ namespace AuthTest.Services
                 string stat = response.StatusCode.ToString();
                 Log.Information($"****VxApi Response**********{tag}: {resp}");
                 Console.WriteLine($"****VxApi Response**********{tag}: {resp}");
-                string result = resp;
+                return resp;
             }
             catch (Exception ex)
             {
