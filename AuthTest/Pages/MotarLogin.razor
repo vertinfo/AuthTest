@@ -1,25 +1,13 @@
-﻿@page "/motarlogin"
+﻿@page "/"
 @inject NavigationManager NavManager
 
-<h1>Motar Login</h1>
+<h1><a href="@MotarApi">Click for Motar Login</a></h1>
 
-<p>This is a test app for the QVX desktop app</p>
-<p>User = happyleopard183</p>
+<p>This is a test page for the QVX desktop app</p>
 
-<a href="@MotarApi">Motar</a>
-<EditForm Model="@model">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <InputText placeholder="UserName" @bind-Value="@model.user"></InputText>
-    <InputText type="password" placeholder="Password" @bind-Value="@model.password" />
-    <p>
-        <InputTextArea placeholder="Motar code" @bind-Value="@motarres"></InputTextArea>
-    </p>
-    <p>
-        <InputTextArea placeholder="VX Token" @bind-Value="@vxres"></InputTextArea>
-    </p>
 
-</EditForm>
+
+
 
 @*<button type="button" onclick="@MotarAuth()">Get Token</button>*@
 
@@ -57,7 +45,8 @@
 
             Console.WriteLine($"Token from VxApi is {vxres}");
 
-            
+            //Next step is to wrap this token with a Quantum Token and then you can 
+            //query both clouds.
         }
     }
 
