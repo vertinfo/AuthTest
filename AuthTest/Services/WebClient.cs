@@ -15,29 +15,13 @@ namespace AuthTest.Services
     public class WebClient : IwebClient
     {
         
-        JObject jo = new JObject();
-
         private string tag = "WebClient";
-        //Azure endpoint
-        private string deviceapi = "https://devicedetails.datahoist.com/api/";
-        //local endpoint
-        //private string localapi = "http://localhost:5051/api/";
-        string qi = "13e15c3d-dbf0-4cd8-8b73-0b2ccbf00cc3";
-
-        //Test method
+        
         public async Task<string> getData(string end)
         {
             try
             {
-                
-                HttpClient client = new HttpClient();
-                
-                //client.DefaultRequestHeaders.Add("timestamp", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
-                //client.DefaultRequestHeaders.Add("pass", qi);
-
-                var response = await client.GetStringAsync(deviceapi + end);
-                
-                return response.ToString();
+                //Add code for receiving a response from a rest api.
             }
             catch(Exception ex)
             {
@@ -57,11 +41,15 @@ namespace AuthTest.Services
                 Console.WriteLine($"****VxApi body**********{tag}: {pars}");
                 HttpContent content = new StringContent(pars, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync(api, content);
-                string resp = response.Content.ReadAsStringAsync().Result;
+                JObject resp = JObject.Parse(response.Content.ReadAsStringAsync().Result);
                 string stat = response.StatusCode.ToString();
                 Log.Information($"****VxApi Response**********{tag}: {resp}");
                 Console.WriteLine($"****VxApi Response**********{tag}: {resp}");
-                return resp;
+
+                if (resp.ContainsKey("token"))
+                    return "Success!";
+               
+                    
             }
             catch (Exception ex)
             {
