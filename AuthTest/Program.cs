@@ -11,7 +11,8 @@ namespace AuthTest
 {
     public class Program
     {
-        
+        public string code = "";
+
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
@@ -26,6 +27,11 @@ namespace AuthTest
                 });
 
 
+    }
+
+    public static class SettingsGlobal
+    {
+        public static string code { get; set; }
     }
 
 }

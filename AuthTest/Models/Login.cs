@@ -9,5 +9,7 @@ namespace AuthTest.Models
     {
         public string user { get; set; }
         public string password { get; set; }
+
+        public string code { get; set; }
     }
 }
