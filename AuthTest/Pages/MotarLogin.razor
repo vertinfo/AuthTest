@@ -1,5 +1,7 @@
 ﻿@page "/"
 @inject NavigationManager NavManager
+@using AuthTest.Models
+@using Serilog
 
 <h1><a href="@MotarApi">Click for Motar Login</a></h1>
 
@@ -28,14 +30,14 @@
         SettingsGlobal.code = "wait";
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
         Console.WriteLine($"Console- Initialize");
-        
+
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("code", out var motarcode))
         {
 
             motarres = motarcode.ToString();
 
             Console.WriteLine($"The response is {motarres}");
-            
+
             WebClient client = new WebClient();
 
             JObject json = new JObject();
@@ -46,7 +48,7 @@
             SettingsGlobal.code = vxres;
 
             Console.WriteLine($"Token from VxApi is {vxres}");
-
+            Log.Information($"///Token from VxApi is {vxres}");
             //Next step is to wrap this token with a Quantum Token and then you can 
             //query both clouds.
         }
@@ -54,7 +56,7 @@
 
     protected async Task MotarAuth()
     {
-       
+
     }
 
 
