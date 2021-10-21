@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'QvxAuth'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_53E675817406451C8056301A3624ACDC }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_69290DBA0A7A449881DFC42877A6DC03 }}
           package: .
