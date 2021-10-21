@@ -32,7 +32,7 @@ namespace AuthTest.Services
             return "fail";
         }
         
-        public async Task<string> sendPost(string api, string pars)
+        public async Task<JObject> sendPost(string api, string pars)
         {
             try
             {
@@ -46,8 +46,8 @@ namespace AuthTest.Services
                 Log.Information($"****VxApi Response**********{tag}: {resp}");
                 Console.WriteLine($"****VxApi Response**********{tag}: {resp}");
 
-                if (resp.ContainsKey("token"))
-                    return "Success!";
+                
+                return resp;
                
                     
             }
@@ -57,7 +57,7 @@ namespace AuthTest.Services
                 Log.Error($"{tag}: {ex.Message.ToString()}");
             }
 
-            return "fail";
+            return new JObject();
         }
 
         public string sendPut(string api, string pars)
@@ -101,7 +101,7 @@ namespace AuthTest.Services
 public interface IwebClient
     {
         Task<string> getData(string id);
-        Task<string> sendPost(string api, string pars);
+        Task<JObject> sendPost(string api, string pars);
         string sendPut(string api, string pars);
     }
 }

@@ -43,12 +43,18 @@
             JObject json = new JObject();
             json.Add("code", motarres);
 
-            vxres = await client.sendPost(vxapi, JsonConvert.SerializeObject(json));
+            JObject r = await client.sendPost(vxapi, JsonConvert.SerializeObject(json));
 
-            SettingsGlobal.code = vxres;
+            if (r.ContainsKey("access_token"))
+            {
+                SettingsGlobal.code = vxres;
+                vxres = "Success!";
+            }
+
 
             Console.WriteLine($"Token from VxApi is {vxres}");
             Log.Information($"///Token from VxApi is {vxres}");
+
             //Next step is to wrap this token with a Quantum Token and then you can 
             //query both clouds.
         }
