@@ -11,7 +11,12 @@
     <label class="control-label">Profile</label>
     <textarea rows="4" value="@login.myprofile" @onchange="@((args) => login.user = args.Value.ToString())" class="form-control"></textarea>
 </div>
-
+<h3>
+    The is a demonstration of Single Sign On from Motar using Quantum APIs. <br />
+    First the user logs in at Motar and a code is returned.  <br />
+    The code is sent to the Quantum API which sends it to Motar with client secrets. <br />
+    The response is a bearer token which is used to request the profile of the user from Motar.
+</h3>
  
 
 
