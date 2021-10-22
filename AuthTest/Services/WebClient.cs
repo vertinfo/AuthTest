@@ -23,7 +23,7 @@ namespace AuthTest.Services
             {
                 HttpClient client = new HttpClient();
 
-                client.DefaultRequestHeaders.Add("token",token);
+                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
                 var response = await client.GetStringAsync(end);
                 Log.Information($"Raw response: {response.ToString()}");

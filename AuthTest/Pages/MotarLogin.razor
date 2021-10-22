@@ -30,7 +30,7 @@
 
     Login login = new Login();
 
-    private string motarres = "";
+    private string motarres = "empty";
 
     WebClient client = new WebClient();
 
@@ -39,26 +39,31 @@
 
         SettingsGlobal.code = "wait";
         login.vxres = "init";
-        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
-        Console.WriteLine($"Console- Initialize");
 
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("code", out var motarcode))
+        if(motarres != "empty")
         {
+            var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+            Console.WriteLine($"Console- Initialize");
 
-            motarres = motarcode.ToString();
+            if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("code", out var motarcode))
+            {
 
-            Console.WriteLine($"The response is {motarres}");
+                motarres = motarcode.ToString();
 
-            await CodeForToken();
+                //Console.WriteLine($"The response is {motarres}");
 
-            MyProfile();
+                await CodeForToken();
 
-            Console.WriteLine($"Token from VxApi is {login.vxres}");
-            Log.Information($"///Token from VxApi is {login.vxres}");
+                await MyProfile();
 
-            //Next step is to wrap this token with a Quantum Token and then you can 
-            //query both clouds.
+                Console.WriteLine($"Token from VxApi is {login.vxres}");
+                Log.Information($"///Token from VxApi is {login.vxres}");
+
+                //Next step is to wrap this token with a Quantum Token and then you can 
+                //query both clouds.
+            }
         }
+
     }
 
     protected void MotarAuth(EventArgs args)
