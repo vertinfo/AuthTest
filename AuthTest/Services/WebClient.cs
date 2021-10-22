@@ -17,11 +17,19 @@ namespace AuthTest.Services
         
         private string tag = "WebClient";
         
-        public async Task<string> getData(string end)
+        public async Task<string> getData(string end, string token)
         {
             try
             {
-                //Add code for receiving a response from a rest api.
+                HttpClient client = new HttpClient();
+
+                client.DefaultRequestHeaders.Add("token",token);
+
+                var response = await client.GetStringAsync(end);
+                Log.Information($"Raw response: {response.ToString()}");
+                JObject res = JObject.Parse(response);
+                Log.Information($"My Profile response: {res}");
+                return response.ToString();
             }
             catch(Exception ex)
             {
@@ -100,7 +108,7 @@ namespace AuthTest.Services
 
 public interface IwebClient
     {
-        Task<string> getData(string id);
+        Task<string> getData(string end, string token);
         Task<JObject> sendPost(string api, string pars);
         string sendPut(string api, string pars);
     }

@@ -7,9 +7,9 @@ namespace AuthTest.Models
 {
     public class Login
     {
-        public string user { get; set; }
+        public string user { get; set; } = "";
         public string password { get; set; }
-
+        public string vxres { get; set; } = "";
         public string code { get; set; }
     }
 }

@@ -7,8 +7,12 @@
 
 <p>This is a test page for the QVX desktop app</p>
 
-<input id="t1" readonly="readonly" bind-Value="@vxres" type="text" />
+<div class="form-group-sm">
+    <label class="control-label">Profile</label>
+    <textarea rows="4" value="@login.vxres" @onchange="@((args) => login.user = args.Value.ToString())" class="form-control"></textarea>
+</div>
 
+ 
 
 
 @*<button type="button" onclick="@MotarAuth()">Get Token</button>*@
@@ -22,12 +26,19 @@
 
     private string vxapi = "https://dev-api.quantuminterface.com/v1/auth/motar-code/";
 
+    private string myprofile = "https://sandbox.motar.io/user/v1/my/profile";
+
+    Login login = new Login();
+
     private string motarres = "";
-    private string vxres = "";
+
+    WebClient client = new WebClient();
 
     protected override async Task OnInitializedAsync()
     {
+
         SettingsGlobal.code = "wait";
+        login.vxres = "init";
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
         Console.WriteLine($"Console- Initialize");
 
@@ -38,31 +49,42 @@
 
             Console.WriteLine($"The response is {motarres}");
 
-            WebClient client = new WebClient();
+            await CodeForToken();
 
-            JObject json = new JObject();
-            json.Add("code", motarres);
+            MyProfile();
 
-            JObject r = await client.sendPost(vxapi, JsonConvert.SerializeObject(json));
-
-            if (r.ContainsKey("access_token"))
-            {
-                SettingsGlobal.code = vxres;
-                vxres = "Success!";
-            }
-
-
-            Console.WriteLine($"Token from VxApi is {vxres}");
-            Log.Information($"///Token from VxApi is {vxres}");
+            Console.WriteLine($"Token from VxApi is {login.vxres}");
+            Log.Information($"///Token from VxApi is {login.vxres}");
 
             //Next step is to wrap this token with a Quantum Token and then you can 
             //query both clouds.
         }
     }
 
-    protected async Task MotarAuth()
+    protected void MotarAuth(EventArgs args)
     {
 
+    }
+
+    protected async Task CodeForToken()
+    {
+        JObject json = new JObject();
+        json.Add("code", motarres);
+
+        JObject r = await client.sendPost(vxapi, JsonConvert.SerializeObject(json));
+
+        if (r.ContainsKey("access_token"))
+        {
+            SettingsGlobal.code = login.vxres;
+            Log.Information("///Token Success");
+            login.vxres = r["access_token"].Value<string>();
+        }
+    }
+
+    protected async Task MyProfile()
+    {
+        //string t = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6ImQ2MjQxMjQ4MTU5ZjM4MzJmMjQ5NGE1ZjU5MWQ0YzUyZTM4YTMxY2E3MmJjOTJjOTIyYTEyYzlkZDcwOGFjM2M2OGM3ZDI4M2JjYWRlNzBkZWVmZjQ5NzA3ZjU4ODkxM2RjZDQxNDhiODUwYTczMGMzOTdhNDBjMmZiNTZhOTM5NTdiNTc0YmU0OWMwY2YxMjhiNzMxOTRiZjhiOGM4NmFmNyQzODcwNmM2YzMzMzU2NzdhNzE3NzMwMzgzMDYzNjMzMyIsImlhdCI6MTYzNDkzODUzNiwiZXhwIjoxNjM1MDI0OTM2LCJhdWQiOiJzYW5kYm94Lm1vdGFyLmlvIiwiaXNzIjoiZHluZXBpYy5jb20iLCJzdWIiOiJkNjI0MTAxODQ1Y2M2ODNkZjkxOTFlNWMwODE2MWY1NWI0ZGEzNzliNzZlOTlkOWIyMmExMmM5ZGQ3MDhhYzNjNjhjN2QyODNiY2FkZTcwZGVlZmY0OTcwN2Y1ODg5MTNkY2Q0MTQ4Yjg1MGE3MzBjMzk3YTQwYzJmYjU2YTkzOTU3YjU3NGJlNDljMGNmMTI4YjczMTk0YmY4YjhjODZhZjckMzg3MDZjNmMzMzM1Njc3YTcxNzczMDM4MzA2MzYzMzMiLCJqdGkiOiI2NjExODlhY2Y4NDRhYjk0NThjOTdmNTM5MGM5NDEwMmMxMTVhY2FiY2JiMTA2MjYyOGI5NTQ2ZjgwYTc5NmRiIn0.6gYO9e90wfIhi18BeDN3mX8DMQjPLmk0moBj4lgZjI4";
+        JObject r = JObject.Parse(await client.getData(myprofile, login.vxres));
     }
 
 
