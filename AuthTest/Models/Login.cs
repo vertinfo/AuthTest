@@ -9,7 +9,11 @@ namespace AuthTest.Models
     {
         public string user { get; set; } = "";
         public string password { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Country { get; set; }
         public string vxres { get; set; } = "";
         public string code { get; set; }
+        public string myprofile { get; set; }
     }
 }
