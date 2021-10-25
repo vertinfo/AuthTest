@@ -45,14 +45,14 @@ namespace AuthTest.Services
             try
             {
                 HttpClient client = new HttpClient();
-                Log.Information($"****VxApi body**********{tag}: {pars}");
-                Console.WriteLine($"****VxApi body**********{tag}: {pars}");
+                //Log.Information($"****VxApi body**********{tag}: {pars}");
+                //Console.WriteLine($"****VxApi body**********{tag}: {pars}");
                 HttpContent content = new StringContent(pars, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync(api, content);
                 JObject resp = JObject.Parse(response.Content.ReadAsStringAsync().Result);
                 string stat = response.StatusCode.ToString();
-                Log.Information($"****VxApi Response**********{tag}: {resp}");
-                Console.WriteLine($"****VxApi Response**********{tag}: {resp}");
+                //Log.Information($"****VxApi Response**********{tag}: {resp}");
+                //Console.WriteLine($"****VxApi Response**********{tag}: {resp}");
 
                 
                 return resp;

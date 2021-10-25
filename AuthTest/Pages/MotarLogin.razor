@@ -106,6 +106,7 @@
             login.Country = json["country"].Value<string>();
 
             resprofile = $" Handle = {login.user} \r\n Name = {login.FirstName} {login.LastName} \r\n Country = {login.Country}";
+            Log.Information($"Profile: \r\n {resprofile}");
         }
         catch(Exception ex)
         {
