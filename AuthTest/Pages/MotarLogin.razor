@@ -102,10 +102,10 @@
 
             login.user = json["handle"].Value<string>();
             login.FirstName = json["firstName"].Value<string>();
-            login.FirstName = json["lastName"].Value<string>();
-            login.FirstName = json["country"].Value<string>();
+            login.LastName = json["lastName"].Value<string>();
+            login.Country = json["country"].Value<string>();
 
-            resprofile = $"Handle = {login.user}\r\nName = {login.FirstName} {login.LastName}\r\nCountry = {login.Country}";
+            resprofile = $" Handle = {login.user} \r\n Name = {login.FirstName} {login.LastName} \r\n Country = {login.Country}";
         }
         catch(Exception ex)
         {
