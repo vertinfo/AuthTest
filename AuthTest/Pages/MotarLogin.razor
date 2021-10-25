@@ -9,7 +9,7 @@
 
 <div class="form-group-sm">
     <label class="control-label">Profile</label>
-    <textarea rows="4" value="@login.myprofile" @onchange="@((args) => login.user = args.Value.ToString())" class="form-control"></textarea>
+    <textarea rows="4" value="@resprofile" @onchange="@((args) => login.user = args.Value.ToString())" class="form-control"></textarea>
 </div>
 <h3>
     The is a demonstration of Single Sign On from Motar using Quantum APIs. <br />
@@ -36,6 +36,7 @@
     Login login = new Login();
 
     private string motarres = "empty";
+    private string resprofile = "No Auth Yet";
 
     WebClient client = new WebClient();
 
@@ -94,9 +95,16 @@
 
     protected async Task MyProfile()
     {
-        login.myprofile = JsonConvert.SerializeObject(JObject.Parse(await client.getData(myprofile, login.vxres)));
+        JObject json = JObject.Parse(await client.getData(myprofile, login.vxres));
+        login.myprofile = JsonConvert.SerializeObject(json);
 
+        login.user = json["handle"].Value<string>();
+        login.FirstName = json["FirstName"].Value<string>();
+        login.FirstName = json["LastName"].Value<string>();
+        login.FirstName = json["Country"].Value<string>();
 
+        resprofile = $"Handle = {login.user}\r\nName = {login.FirstName} {login.LastName}\r\nCountry = {login.Country}";
+;
     }
 
 
