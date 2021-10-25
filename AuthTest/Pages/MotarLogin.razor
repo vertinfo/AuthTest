@@ -95,16 +95,24 @@
 
     protected async Task MyProfile()
     {
-        JObject json = JObject.Parse(await client.getData(myprofile, login.vxres));
-        login.myprofile = JsonConvert.SerializeObject(json);
+        try
+        {
+            JObject json = JObject.Parse(await client.getData(myprofile, login.vxres));
+            login.myprofile = JsonConvert.SerializeObject(json);
 
-        login.user = json["handle"].Value<string>();
-        login.FirstName = json["FirstName"].Value<string>();
-        login.FirstName = json["LastName"].Value<string>();
-        login.FirstName = json["Country"].Value<string>();
+            login.user = json["handle"].Value<string>();
+            login.FirstName = json["firstname"].Value<string>();
+            login.FirstName = json["lastname"].Value<string>();
+            login.FirstName = json["country"].Value<string>();
 
-        resprofile = $"Handle = {login.user}\r\nName = {login.FirstName} {login.LastName}\r\nCountry = {login.Country}";
-;
+            resprofile = $"Handle = {login.user}\r\nName = {login.FirstName} {login.LastName}\r\nCountry = {login.Country}";
+        }
+        catch(Exception ex)
+        {
+            Log.Information($"Parsing my profile exc: {ex.Message}");
+        }
+
+
     }
 
 
