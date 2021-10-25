@@ -101,8 +101,8 @@
             login.myprofile = JsonConvert.SerializeObject(json);
 
             login.user = json["handle"].Value<string>();
-            login.FirstName = json["firstname"].Value<string>();
-            login.FirstName = json["lastname"].Value<string>();
+            login.FirstName = json["firstName"].Value<string>();
+            login.FirstName = json["lastName"].Value<string>();
             login.FirstName = json["country"].Value<string>();
 
             resprofile = $"Handle = {login.user}\r\nName = {login.FirstName} {login.LastName}\r\nCountry = {login.Country}";
